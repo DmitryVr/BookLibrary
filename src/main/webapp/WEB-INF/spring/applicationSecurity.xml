@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+
+       http://www.springframework.org/schema/security
+	   http://www.springframework.org/schema/security/spring-security.xsd
+
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <context:component-scan base-package="com.company.library"/>
+
+    <!--<http pattern="/css/**" security="none"/>-->
+    <!--<http pattern="/images/**" security="none"/>-->
+
+    <http use-expressions="true">
+        <intercept-url pattern="/user" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+
+        <!--где находится форма-->
+        <!--куда переходить по-умолчанию-->
+        <!--куда переходить если пользователь ввел неверные данные + добавить параметр error-->
+        <!--как на форме будут называться поля логина и пароля-->
+        <form-login login-page="/login"
+                    default-target-url="/user"
+                    authentication-failure-url="/login?error=true"
+                    username-parameter="user_login"
+                    password-parameter="password_login"/>
+
+        <!--переход на страницу при выходе-->
+        <logout logout-success-url="/login?logout=true" />
+
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsServiceImpl">
+            <!--<password-encoder ref="encoder"></password-encoder>-->
+        </authentication-provider>
+    </authentication-manager>
+
+    <!--<beans:bean id="encoder"-->
+    <!--class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">-->
+    <!--<beans:constructor-arg name="strength" value="11"/>-->
+    <!--</beans:bean>-->
+
+</beans:beans>

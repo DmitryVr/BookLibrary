@@ -1,0 +1,11 @@
+.idea/
+
+target/classes
+target/library-1.0-SNAPSHOT
+target/generated-sources
+target/maven-archiver
+target/maven-status
+
+log4j-application.log
+
+BookLibrary.iml
